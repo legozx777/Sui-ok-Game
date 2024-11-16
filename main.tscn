@@ -177,12 +177,8 @@ rotation = 1.5708
 scale = Vector2(0.1, 15)
 texture = ExtResource("5_e5o1h")
 
-[node name="LeftWall" type="RigidBody2D" parent="Container" groups=["wall"]]
+[node name="LeftWall" type="StaticBody2D" parent="Container" groups=["wall"]]
 position = Vector2(-256, 0)
-gravity_scale = 0.0
-can_sleep = false
-lock_rotation = true
-freeze = true
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Container/LeftWall"]
@@ -193,12 +189,8 @@ texture = ExtResource("1_rbpwc")
 scale = Vector2(1, 19)
 shape = SubResource("RectangleShape2D_tgug6")
 
-[node name="RightWall" type="RigidBody2D" parent="Container" groups=["wall"]]
+[node name="RightWall" type="StaticBody2D" parent="Container" groups=["wall"]]
 position = Vector2(256, 0)
-gravity_scale = 0.0
-can_sleep = false
-lock_rotation = true
-freeze = true
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Container/RightWall"]
@@ -209,13 +201,9 @@ texture = ExtResource("1_rbpwc")
 scale = Vector2(1, 19)
 shape = SubResource("RectangleShape2D_tgug6")
 
-[node name="Floor" type="RigidBody2D" parent="Container"]
+[node name="Floor" type="StaticBody2D" parent="Container"]
 position = Vector2(0, 320)
 rotation = 1.5708
-gravity_scale = 0.0
-can_sleep = false
-lock_rotation = true
-freeze = true
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Container/Floor"]

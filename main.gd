@@ -43,6 +43,7 @@ var high_score: int # 0-4 billion
 var playtime: int # in seconds  0-4 billion or 136 years
 """ more shit to add
 when spawning fruits keep velocity (average)
+change check_death to be more efficient with a physics collision
 can transfer save data using a hash of save.data with something added infront to prevent tampering
  ^^ (FileAccess.open_encrypted or .open_encrypted_with_pass)
 
