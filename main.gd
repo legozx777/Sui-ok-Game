@@ -42,7 +42,7 @@ var seen: int # wheel of evo  0-10
 var high_score: int # 0-4 billion
 var playtime: int # in seconds  0-4 billion or 136 years
 """ more shit to add
-background of falling fruits that align with evo wheel
+when spawning fruits keep velocity (average)
 can transfer save data using a hash of save.data with something added infront to prevent tampering
  ^^ (FileAccess.open_encrypted or .open_encrypted_with_pass)
 
@@ -75,12 +75,15 @@ func _ready():
 	set_evo()
 	
 	new_game()
+	background_fruit_drop()
 	#if FileAccess.file_exists("user://not-malware.exe"):
 		#FileAccess.open("user://not-malware.exe", FileAccess.WRITE)
 	
 
 func _process(_delta):
 	if playing:
+		var pos = Vector2(clamp(get_local_mouse_position().x, MIN_CLAMPS[curr], MAX_CLAMPS[curr]), 60)
+		$Player.position = pos
 		if (
 				Input.is_action_just_pressed("drop") and $Player.visible
 				and get_local_mouse_position().distance_to($Container.position) < 600
@@ -89,14 +92,14 @@ func _process(_delta):
 			# later weight the rand so it makes more berrys or smth
 			# or not
 			$DropSound.play()
-			spawn_fruit(curr, Vector2(clamp(get_local_mouse_position().x, MIN_CLAMPS[curr], MAX_CLAMPS[curr]), 60), false)
+			spawn_fruit(curr, pos, 0)
 			curr = next
 			set_curr()
 			next = randi() % (game_seen + 1)
-		$Player.position = Vector2(clamp(get_local_mouse_position().x, MIN_CLAMPS[curr], MAX_CLAMPS[curr]), 60)
 		
 
-func spawn_fruit(index: int, pos: Vector2, poof: bool) -> void:
+func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
+	# type 0 - player spawned, 1 - merge spawned, 2 - background
 	#await get_tree().create_timer(0.02).timeout
 	var fruit = load("res://fruit.tscn").instantiate()
 	add_child(fruit)
@@ -104,18 +107,18 @@ func spawn_fruit(index: int, pos: Vector2, poof: bool) -> void:
 	fruit.score.connect(add_score)
 	fruit.spawn_new.connect(spawn_fruit)
 	fruit.hit.connect(on_hit)
-	fruit.sett(index, pos)
-	if poof:
+	fruit.sett(index, pos, type)
+	if type == 0:
+		await get_tree().create_timer(0.45).timeout
+		if is_instance_valid(fruit):
+			fruit.just_player_spawned = false
+	elif type == 1:
 		$Poof.position = pos
 		$Poof.scale = Vector2(POOF_SCALES[index], POOF_SCALES[index])
 		$Poof.visible = true
 		$Poof.play()
 		$MergeSound.play()
 		fruit.just_player_spawned = false
-	else:
-		await get_tree().create_timer(0.25).timeout
-		if is_instance_valid(fruit):
-			fruit.just_player_spawned = false
 		
 
 func on_hit() -> void:
@@ -171,6 +174,7 @@ func new_game() -> void:
 	$DeathLabel.visible = false
 	$RestartButton.visible = false
 	playing = true
+	
 
 func save_data():
 	var file = FileAccess.open(SAVE_FILE, FileAccess.WRITE)
@@ -178,6 +182,15 @@ func save_data():
 	file.store_32(high_score)
 	file.store_32(playtime)
 	file.close()
+	
+
+func background_fruit_drop() -> void:
+	const FRUIT_SIZE = [16, 20, 24, 34, 44, 53, 61, 76, 85, 109, 128]
+	var index = randi() % (seen)
+	var pos = Vector2(randf_range(FRUIT_SIZE[index],1280-FRUIT_SIZE[index]), -300)
+	spawn_fruit(index, pos, 2)
+	await get_tree().create_timer(0.5).timeout
+	background_fruit_drop()
 	
 
 # vv  sprite setters  vv
