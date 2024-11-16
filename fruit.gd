@@ -41,66 +41,39 @@ func _on_body_entered(body):
 			hitt = true
 			hit.emit()
 		if body.get_groups().find("fruit") != -1 and body.index == index:
-			var pos
-			if position.y >= body.position.y: # sets y pos to the lower fruit
-				pos = Vector2(lerp(position.x, body.position.x, 0.5), position.y)
-			else:
-				pos = Vector2(lerp(position.x, body.position.x, 0.5), body.position.y)
+			var pos = position.lerp(body.position, 0.5)
 			body.free()
 			score.emit(SCORES[index])
 			seeen.emit(index + 1)
 			if index != 10: # index 10 means 2 suika collided
 				spawn_new.emit(index + 1, pos, 1)
 			queue_free()
-	elif body.get_groups().find("fruit") == -1 and body.get_groups().find("background") == -1:
+	elif body.get_groups().find("floor") != -1:
 		queue_free()
 
-func sett(indexx: int, pos: Vector2, type: int) -> void:
-	self.index = indexx
+func sett(index: int, pos: Vector2, type: int) -> void:
+	var fruitList = [$Cherry, $Strawberry, $Grape, $Tangerine, $Orange, 
+		$Apple, $Melon, $Peachnya, $Pineapple, $Wintermelon, $SUIKA]
+	self.index = index
 	self.position = pos
 	self.type = type
+	$CollisionShape2D.scale = Vector2.ONE * SCALES[index]
 	if type == 2:
+		$CollisionShape2D.scale *= 0.6
+		fruitList[index].scale *= 0.6
+		self.z_index = -2 # -2 bc peach has z of 1, and we need -1
 		self.collision_layer = 2
 		self.collision_mask = 2
-		self.z_index = -2 # -2 bc peach has z of 1, and we need -1
 		self.gravity_scale = 0.05
-		self.rotation = randf() * 2 * PI
+		self.rotation = randf() * TAU
 		self.modulate = Color(1, 1, 1, 0.5)
+		self.angular_velocity = randf_range(-0.2, 0.2)
 		self.remove_from_group("fruit")
 		self.add_to_group("background")
-	$CollisionShape2D.scale = Vector2(SCALES[indexx], SCALES[indexx])
-	if indexx == 0:
-		$Cherry.visible = true
-	elif index == 1:
-		$Cherry.visible = false
-		$Strawberry.visible = true
-	elif index == 2:
-		$Strawberry.visible = false
-		$Grape.visible = true
-	elif index == 3:
-		$Grape.visible = false
-		$Tangerine.visible = true
-	elif index == 4:
-		$Tangerine.visible = false
-		$Orange.visible = true
-	elif index == 5:
-		$Orange.visible = false
-		$Apple.visible = true
-	elif index == 6:
-		$Apple.visible = false
-		$Melon.visible = true
-	elif index == 7:
-		$Melon.visible = false
-		$Peachnya.visible = true
-	elif index == 8:
-		$Peachnya.visible = false
-		$Pineapple.visible = true
-	elif index == 9:
-		$Pineapple.visible = false
-		$Wintermelon.visible = true
-	elif index == 10:
-		$Wintermelon.visible = false
-		$SUIKA.visible = true
+	if index != 0:
+		fruitList[index-1].visible = false
+	fruitList[index].visible = true
+	
 	
 func get_top_pos() -> float:
 	const FRUIT_SIZE = [16, 20, 24, 34, 44, 53, 61, 76, 85, 109, 128]

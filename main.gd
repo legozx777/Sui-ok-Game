@@ -42,14 +42,17 @@ var seen: int # wheel of evo  0-10
 var high_score: int # 0-4 billion
 var playtime: int # in seconds  0-4 billion or 136 years
 """ more shit to add
-when spawning fruits keep velocity (average)
+menu screen (or not)
+death sound effect
+change background (photo / color) of box
+
 change check_death to be more efficient with a physics collision
+check spawn distribution for fruits (cus rn its random maybe in game its not)
+
 can transfer save data using a hash of save.data with something added infront to prevent tampering
  ^^ (FileAccess.open_encrypted or .open_encrypted_with_pass)
 
 global leaderboad w/ ip or smth as a unique identifier for each ("cosmetic" username and highscore)
-menu screen (or not)
-death sound effect
 """
 func _ready():
 	if FileAccess.file_exists(SAVE_FILE):
@@ -90,8 +93,6 @@ func _process(_delta):
 				and get_local_mouse_position().distance_to($Container.position) < 600
 			):
 			$Player.visible = false
-			# later weight the rand so it makes more berrys or smth
-			# or not
 			$DropSound.play()
 			spawn_fruit(curr, pos, 0)
 			curr = next
@@ -187,10 +188,17 @@ func save_data():
 
 func background_fruit_drop() -> void:
 	const FRUIT_SIZE = [16, 20, 24, 34, 44, 53, 61, 76, 85, 109, 128]
-	var index = randi() % (seen)
-	var pos = Vector2(randf_range(FRUIT_SIZE[index],1280-FRUIT_SIZE[index]), -300)
+	const X_VALUES = [370, 655, 940, 1280]
+	var index = randi() % seen
+	var posx = randf_range(FRUIT_SIZE[index], X_VALUES[3] - FRUIT_SIZE[index])
+	if posx > X_VALUES[0] - FRUIT_SIZE[index] and posx < X_VALUES[2] + FRUIT_SIZE[index]:
+		if posx < X_VALUES[1]:
+			posx = randf_range(FRUIT_SIZE[index], X_VALUES[0] - FRUIT_SIZE[index])
+		else:
+			posx = randf_range(X_VALUES[2] + FRUIT_SIZE[index], X_VALUES[3] - FRUIT_SIZE[index])
+	var pos = Vector2(posx, -200)
 	spawn_fruit(index, pos, 2)
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(0.15).timeout
 	background_fruit_drop()
 	
 
