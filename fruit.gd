@@ -62,7 +62,7 @@ func sett(indexx: int, pos: Vector2, type: int) -> void:
 	if type == 2:
 		self.collision_layer = 2
 		self.collision_mask = 2
-		self.z_index = -1
+		self.z_index = -2 # -2 bc peach has z of 1, and we need -1
 		self.gravity_scale = 0.05
 		self.rotation = randf() * 2 * PI
 		self.modulate = Color(1, 1, 1, 0.5)

@@ -109,7 +109,7 @@ func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
 	fruit.hit.connect(on_hit)
 	fruit.sett(index, pos, type)
 	if type == 0:
-		await get_tree().create_timer(0.45).timeout
+		await get_tree().create_timer(0.5).timeout
 		if is_instance_valid(fruit):
 			fruit.just_player_spawned = false
 	elif type == 1:
