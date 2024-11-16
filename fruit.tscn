@@ -1,0 +1,105 @@
+[gd_scene load_steps=19 format=3 uid="uid://c578t133nqc72"]
+
+[ext_resource type="Script" path="res://fruit.gd" id="1_v7mtj"]
+[ext_resource type="Texture2D" uid="uid://bw2sjxm1vav1k" path="res://assets/cherry.png" id="2_n32vn"]
+[ext_resource type="Texture2D" uid="uid://b6qndxf6lgcow" path="res://assets/strawberry.png" id="3_l2q7t"]
+[ext_resource type="Texture2D" uid="uid://cdn508755vy0o" path="res://assets/grape.png" id="4_dr0pb"]
+[ext_resource type="Texture2D" uid="uid://cxcg1wsxjlpii" path="res://assets/tangerine.png" id="5_ad8q1"]
+[ext_resource type="Texture2D" uid="uid://bmjmuid0l2d07" path="res://assets/orange.png" id="6_4ut53"]
+[ext_resource type="Texture2D" uid="uid://cru1oiwvwxmco" path="res://assets/apple.png" id="7_wiujw"]
+[ext_resource type="Texture2D" uid="uid://dcpc5cr8mvi4c" path="res://assets/melon.png" id="8_cm18c"]
+[ext_resource type="Texture2D" uid="uid://dihiqw5yxfwap" path="res://assets/peach.png" id="9_503c1"]
+[ext_resource type="Texture2D" uid="uid://rci07u8vjjjw" path="res://assets/pineapple.png" id="10_6uog7"]
+[ext_resource type="Texture2D" uid="uid://qh1wm73mdekd" path="res://assets/wintermelon.png" id="11_63enb"]
+[ext_resource type="Texture2D" uid="uid://pd3aq70e1nfb" path="res://assets/suika.png" id="12_atmi0"]
+[ext_resource type="Texture2D" uid="uid://bcbjnfu4ocov1" path="res://assets/poof00.png" id="13_psm4c"]
+[ext_resource type="Texture2D" uid="uid://u6g1rp6t8a6v" path="res://assets/poof01.png" id="14_o6eqi"]
+[ext_resource type="Texture2D" uid="uid://d135c2pfh06dh" path="res://assets/poof02.png" id="15_ic2c2"]
+[ext_resource type="Texture2D" uid="uid://osp6f5lmaru7" path="res://assets/poof03.png" id="16_i2dhl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vww8h"]
+radius = 16.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qhu3q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_psm4c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_o6eqi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ic2c2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_i2dhl")
+}],
+"loop": false,
+"name": &"default",
+"speed": 30.0
+}]
+
+[node name="Fruit" type="RigidBody2D" groups=["fruit"]]
+can_sleep = false
+contact_monitor = true
+max_contacts_reported = 10
+script = ExtResource("1_v7mtj")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_vww8h")
+
+[node name="Poof" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_qhu3q")
+frame_progress = 0.947662
+
+[node name="Cherry" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_n32vn")
+
+[node name="Strawberry" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_l2q7t")
+
+[node name="Grape" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_dr0pb")
+
+[node name="Tangerine" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_ad8q1")
+
+[node name="Orange" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("6_4ut53")
+
+[node name="Apple" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("7_wiujw")
+
+[node name="Melon" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("8_cm18c")
+
+[node name="Peachnya" type="Sprite2D" parent="."]
+visible = false
+z_index = 1
+texture = ExtResource("9_503c1")
+
+[node name="Pineapple" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("10_6uog7")
+
+[node name="Wintermelon" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("11_63enb")
+
+[node name="SUIKA" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("12_atmi0")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
