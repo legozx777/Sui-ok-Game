@@ -42,14 +42,18 @@ var seen: int # wheel of evo  0-10
 var high_score: int # 0-4 billion
 var playtime: int # in seconds  0-4 billion or 136 years
 """ more shit to add
-menu screen (or not)
-death sound effect
-change background (photo / color) of box
+fix the naming conventions :skull:
 
-change check_death to be more efficient with a physics collision
+menu screen (or not)
+add actual sound to DeathSound
+change background (photo / color) of box (draw actual background) (get sprite for player - cloud thingy)
+add opacity slider for the background fruits
+
+change check_death to be more efficient with a physics object at lineOfDeath
 check spawn distribution for fruits (cus rn its random maybe in game its not)
 
 can transfer save data using a hash of save.data with something added infront to prevent tampering
+(if someone goes through all that effort to cheat, just let them man....)
  ^^ (FileAccess.open_encrypted or .open_encrypted_with_pass)
 
 global leaderboad w/ ip or smth as a unique identifier for each ("cosmetic" username and highscore)
@@ -116,7 +120,7 @@ func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
 			fruit.just_player_spawned = false
 	elif type == 1:
 		$Poof.position = pos
-		$Poof.scale = Vector2(POOF_SCALES[index], POOF_SCALES[index])
+		$Poof.scale = Vector2.ONE * POOF_SCALES[index]
 		$Poof.visible = true
 		$Poof.play()
 		$MergeSound.play()
@@ -187,18 +191,11 @@ func save_data():
 	
 
 func background_fruit_drop() -> void:
-	const FRUIT_SIZE = [16, 20, 24, 34, 44, 53, 61, 76, 85, 109, 128]
-	const X_VALUES = [370, 655, 940, 1280]
 	var index = randi() % seen
-	var posx = randf_range(FRUIT_SIZE[index], X_VALUES[3] - FRUIT_SIZE[index])
-	if posx > X_VALUES[0] - FRUIT_SIZE[index] and posx < X_VALUES[2] + FRUIT_SIZE[index]:
-		if posx < X_VALUES[1]:
-			posx = randf_range(FRUIT_SIZE[index], X_VALUES[0] - FRUIT_SIZE[index])
-		else:
-			posx = randf_range(X_VALUES[2] + FRUIT_SIZE[index], X_VALUES[3] - FRUIT_SIZE[index])
+	var posx = randf_range(-50, 1330)
 	var pos = Vector2(posx, -200)
 	spawn_fruit(index, pos, 2)
-	await get_tree().create_timer(0.15).timeout
+	await get_tree().create_timer(0.1).timeout
 	background_fruit_drop()
 	
 

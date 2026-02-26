@@ -41,6 +41,7 @@ animations = [{
 }]
 
 [node name="Fruit" type="RigidBody2D" groups=["fruit"]]
+z_index = 1
 can_sleep = false
 contact_monitor = true
 max_contacts_reported = 10
