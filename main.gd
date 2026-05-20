@@ -78,6 +78,7 @@ func _ready():
 	
 	$HighScoreLabel.text = "High Score:\n" + str(high_score)
 	$AudioSlider.value = AudioServer.get_bus_volume_db(master_bus)
+	$BgOpacitySlider.value = bg_opacity
 	set_playtime()
 	set_evo()
 	
@@ -190,7 +191,7 @@ func save_data():
 	
 
 func background_fruit_drop() -> void:
-	var index = randi() % (evo_seen+1)
+	var index = randi() % (evo_seen + 1)
 	var posx = randf_range(-50, 1330)
 	var pos = Vector2(posx, -200)
 	if bg_opacity != 0:
@@ -271,7 +272,7 @@ func set_playtime() -> void:
 # ^^  sprite setters  ^^
 
 func _on_playtime_timer_timeout():
-	playtime = playtime + 1
+	playtime += 1
 	set_playtime()
 	save_data()
 	
