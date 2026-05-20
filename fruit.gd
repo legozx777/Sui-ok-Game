@@ -51,7 +51,7 @@ func _on_body_entered(body):
 	elif body.get_groups().find("floor") != -1:
 		queue_free()
 
-func sett(index: int, pos: Vector2, type: int) -> void:
+func sett(index: int, pos: Vector2, type: int, opacity: float) -> void:
 	var fruitList = [$Cherry, $Strawberry, $Grape, $Tangerine, $Orange, 
 		$Apple, $Melon, $Peachnya, $Pineapple, $Wintermelon, $SUIKA]
 	self.index = index
@@ -66,7 +66,7 @@ func sett(index: int, pos: Vector2, type: int) -> void:
 		self.collision_mask = 2
 		self.gravity_scale = 0.05
 		self.rotation = randf() * TAU
-		self.modulate = Color(1, 1, 1, 0.5)
+		self.modulate = Color(1, 1, 1, opacity)
 		self.angular_velocity = randf_range(-0.2, 0.2)
 		self.remove_from_group("fruit")
 		self.add_to_group("background")

@@ -29,7 +29,8 @@ const POOF_SCALES:= [
 	0.25 * 8,
 ]
 
-var master_bus = AudioServer.get_bus_index("Master")
+var master_bus:= AudioServer.get_bus_index("Master")
+var bg_opacity:= 0.5
 # vv  game data
 var playing: bool
 var game_seen: int # resets on game, which fruits can spawn
@@ -45,7 +46,7 @@ var playtime: int # in seconds  0-4 billion or 136 years
 menu screen (or not)
 add actual sound to DeathSound
 change background (photo / color) of box (draw actual background) (get sprite for player - cloud thingy)
-add opacity slider for the background fruits
+add drop speed slider for the background fruits
 
 change check_death to be more efficient with a physics object at lineOfDeath
 check spawn distribution for fruits (cus rn its random maybe in game its not)
@@ -102,7 +103,7 @@ func _process(_delta):
 			next_fruit = randi() % (game_seen + 1)
 		
 
-func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
+func spawn_fruit(index: int, pos: Vector2, type: int, opacity = 0.5) -> void:
 	# type 0 - player spawned, 1 - merge spawned, 2 - background
 	#await get_tree().create_timer(0.02).timeout
 	var fruit = load("res://fruit.tscn").instantiate()
@@ -111,7 +112,7 @@ func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
 	fruit.score_signal.connect(add_score)
 	fruit.spawn_new_signal.connect(spawn_fruit)
 	fruit.hit_signal.connect(on_hit)
-	fruit.sett(index, pos, type)
+	fruit.sett(index, pos, type, opacity)
 	if type == 0:
 		await get_tree().create_timer(0.5).timeout
 		if is_instance_valid(fruit):
@@ -192,7 +193,8 @@ func background_fruit_drop() -> void:
 	var index = randi() % (evo_seen+1)
 	var posx = randf_range(-50, 1330)
 	var pos = Vector2(posx, -200)
-	spawn_fruit(index, pos, 2)
+	if bg_opacity != 0:
+		spawn_fruit(index, pos, 2, bg_opacity)
 	await get_tree().create_timer(0.1).timeout
 	background_fruit_drop()
 	
@@ -297,3 +299,6 @@ func _on_master_slider_value_changed(value):
 	AudioServer.set_bus_mute(master_bus, value < $AudioSlider.min_value + $AudioSlider.step)
 	AudioServer.set_bus_volume_db(master_bus, value)
 	
+
+func _on_bg_opacity_slider_value_changed(value: float):
+	bg_opacity = value

@@ -104,6 +104,25 @@ min_value = -15.0
 max_value = 15.0
 scrollable = false
 
+[node name="BgOpacityLabel" type="Label" parent="."]
+offset_left = 1116.0
+offset_top = 635.0
+offset_right = 1277.0
+offset_bottom = 658.0
+text = "Background Opacity:"
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="BgOpacitySlider" type="HSlider" parent="."]
+offset_left = 1094.0
+offset_top = 660.0
+offset_right = 1278.0
+offset_bottom = 676.0
+max_value = 1.0
+step = 0.05
+value = 0.5
+scrollable = false
+
 [node name="CreditsButton" type="Button" parent="."]
 offset_left = 2.0
 offset_top = 687.0
@@ -290,7 +309,7 @@ visible = false
 texture = ExtResource("7_dbxv2")
 
 [node name="EvoWheel" type="Node2D" parent="."]
-position = Vector2(1100, 500)
+position = Vector2(1100, 470)
 metadata/_edit_group_ = true
 
 [node name="EvoWheelLabel" type="Label" parent="EvoWheel"]
@@ -446,6 +465,8 @@ shape = SubResource("RectangleShape2D_qlx6c")
 [connection signal="finished" from="BGM" to="." method="_on_bgm_finished"]
 [connection signal="timeout" from="PlaytimeTimer" to="." method="_on_playtime_timer_timeout"]
 [connection signal="value_changed" from="AudioSlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="BgOpacitySlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="BgOpacitySlider" to="." method="_on_bg_opacity_slider_value_changed"]
 [connection signal="pressed" from="CreditsButton" to="." method="_on_credits_button_pressed"]
 [connection signal="pressed" from="RestartButton" to="." method="_on_restart_pressed"]
 [connection signal="animation_finished" from="Poof" to="." method="_on_poof_animation_finished"]
