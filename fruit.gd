@@ -1,9 +1,9 @@
 extends RigidBody2D
 
-signal seeen(index: int)
-signal score(score: int)
-signal spawn_new(index: int, pos: Vector2, poof: bool)
-signal hit
+signal seen_signal(index: int)
+signal score_signal(score: int)
+signal spawn_new_signal(index: int, pos: Vector2, poof: bool)
+signal hit_signal
 const SCALES: Array = [
 	1, 
 	1.25, 
@@ -30,23 +30,23 @@ const SCORES: Array = [
 	55,
 	66,
 ]
-var hitt: bool = false
+var hit_local: bool = false
 var just_player_spawned: bool = true
 var index: int
 var type: int # 0 = player spawned, 1 = merge spawned, 2 = background
 
 func _on_body_entered(body):
 	if type != 2:
-		if not hitt:
-			hitt = true
-			hit.emit()
+		if not hit_local:
+			hit_local = true
+			hit_signal.emit()
 		if body.get_groups().find("fruit") != -1 and body.index == index:
 			var pos = position.lerp(body.position, 0.5)
 			body.free()
-			score.emit(SCORES[index])
-			seeen.emit(index + 1)
+			score_signal.emit(SCORES[index])
+			seen_signal.emit(index + 1)
 			if index != 10: # index 10 means 2 suika collided
-				spawn_new.emit(index + 1, pos, 1)
+				spawn_new_signal.emit(index + 1, pos, 1)
 			queue_free()
 	elif body.get_groups().find("floor") != -1:
 		queue_free()
