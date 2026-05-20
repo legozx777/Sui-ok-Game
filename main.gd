@@ -191,7 +191,7 @@ func save_data():
 	
 
 func background_fruit_drop() -> void:
-	var index = randi() % seen
+	var index = randi() % (seen+1)
 	var posx = randf_range(-50, 1330)
 	var pos = Vector2(posx, -200)
 	spawn_fruit(index, pos, 2)
