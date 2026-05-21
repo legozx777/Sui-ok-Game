@@ -135,16 +135,16 @@ visible = false
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 388.0
-offset_top = 90.0
-offset_right = 922.0
-offset_bottom = 192.0
+offset_left = 85.0
+offset_top = 310.0
+offset_right = 346.0
+offset_bottom = 437.0
 grow_vertical = 0
-size_flags_horizontal = 0
 text = "Credits:
 Made by: LegoZX
 Art & Music by: Rasen
-Special Thanks: Pinopino, Sherry, Tsurumaki Maki"
+Special Thanks: 
+Pinopino, Sherry, Tsurumaki Maki"
 horizontal_alignment = 1
 vertical_alignment = 2
 
@@ -180,11 +180,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HighScoreLabel" type="Label" parent="."]
-offset_left = 166.0
-offset_top = 386.0
-offset_right = 354.0
-offset_bottom = 487.0
-theme_override_font_sizes/font_size = 35
+offset_left = 186.0
+offset_top = 145.0
+offset_right = 322.0
+offset_bottom = 220.0
+theme_override_font_sizes/font_size = 25
 text = "High Score:
 0"
 horizontal_alignment = 1
