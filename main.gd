@@ -277,9 +277,6 @@ func _on_playtime_timer_timeout():
 	save_data()
 	
 
-func _on_restart_pressed():
-	new_game()
-	
 func _on_bgm_finished():
 	$BGM.play()
 	

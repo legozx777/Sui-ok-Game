@@ -136,9 +136,9 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 85.0
-offset_top = 310.0
+offset_top = 470.0
 offset_right = 346.0
-offset_bottom = 437.0
+offset_bottom = 597.0
 grow_vertical = 0
 text = "Credits:
 Made by: LegoZX
@@ -148,25 +148,25 @@ Pinopino, Sherry, Tsurumaki Maki"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="RestartButton" type="Button" parent="."]
-visible = false
-offset_left = 183.0
-offset_top = 199.0
-offset_right = 313.0
-offset_bottom = 256.0
-theme_override_font_sizes/font_size = 35
-text = "Restart"
-
 [node name="DeathLabel" type="Label" parent="."]
 visible = false
 offset_left = 169.0
-offset_top = 149.0
+offset_top = 248.0
 offset_right = 329.0
-offset_bottom = 198.0
+offset_bottom = 297.0
 theme_override_font_sizes/font_size = 35
 text = "You Lose!"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="."]
+visible = false
+offset_left = 186.0
+offset_top = 309.0
+offset_right = 317.0
+offset_bottom = 366.0
+theme_override_font_sizes/font_size = 35
+text = "Restart"
 
 [node name="ScoreLabel" type="Label" parent="."]
 offset_left = 186.0
@@ -466,6 +466,6 @@ shape = SubResource("RectangleShape2D_qlx6c")
 [connection signal="value_changed" from="AudioSlider" to="." method="_on_audio_slider_value_changed"]
 [connection signal="value_changed" from="BgOpacitySlider" to="." method="_on_bg_opacity_slider_value_changed"]
 [connection signal="pressed" from="CreditsButton" to="." method="_on_credits_button_pressed"]
-[connection signal="pressed" from="RestartButton" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="RestartButton" to="." method="new_game"]
 [connection signal="animation_finished" from="Poof" to="." method="_on_poof_animation_finished"]
 [connection signal="animation_finished" from="NextPoof" to="." method="_on_next_poof_animation_finished"]
