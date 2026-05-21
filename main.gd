@@ -77,8 +77,6 @@ func _ready():
 		save_data()
 	
 	$HighScoreLabel.text = "High Score:\n" + str(high_score)
-	$AudioSlider.value = AudioServer.get_bus_volume_db(master_bus)
-	$BgOpacitySlider.value = bg_opacity
 	set_playtime()
 	set_evo()
 	
@@ -89,7 +87,7 @@ func _ready():
 	
 
 func _process(_delta):
-	if playing:
+	if playing and not $SettingsMenu.visible:
 		var pos = Vector2(clamp(get_local_mouse_position().x, MIN_CLAMPS[curr_fruit], MAX_CLAMPS[curr_fruit]), 60)
 		$Player.position = pos
 		if (
@@ -102,6 +100,7 @@ func _process(_delta):
 			curr_fruit = next_fruit
 			set_curr()
 			next_fruit = randi() % (game_seen + 1)
+			next_fruit = 4
 		
 
 func spawn_fruit(index: int, pos: Vector2, type: int, opacity = 0.5) -> void:
@@ -116,6 +115,8 @@ func spawn_fruit(index: int, pos: Vector2, type: int, opacity = 0.5) -> void:
 	fruit.sett(index, pos, type, opacity)
 	if type == 0:
 		await get_tree().create_timer(0.5).timeout
+		# run check to see if badly timed check can cause death
+		# after moving player up so orange doesn't colide into death line
 		if is_instance_valid(fruit):
 			fruit.just_player_spawned = false
 	elif type == 1:
@@ -289,14 +290,6 @@ func _on_next_poof_animation_finished():
 	$NextPoof.visible = false
 	
 
-func _on_credits_button_pressed():
-	$CreditsLabel.visible = not $CreditsLabel.visible
+func _on_settings_button_pressed():
+	$SettingsMenu.visible = not $SettingsMenu.visible
 	
-
-func _on_audio_slider_value_changed(value: float):
-	AudioServer.set_bus_mute(master_bus, value < $AudioSlider.min_value + $AudioSlider.step)
-	AudioServer.set_bus_volume_db(master_bus, value)
-	
-
-func _on_bg_opacity_slider_value_changed(value: float):
-	bg_opacity = value

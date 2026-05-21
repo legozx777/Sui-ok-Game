@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bp6hio3c6ljig"]
+[gd_scene load_steps=28 format=3 uid="uid://bp6hio3c6ljig"]
 
 [ext_resource type="Script" uid="uid://b17igwao8l6t4" path="res://main.gd" id="1_mm3fw"]
 [ext_resource type="Texture2D" uid="uid://c5lrsw08854c6" path="res://assets/square.png" id="1_rbpwc"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://crinqi6bkguq1" path="res://assets/woop.mp3" id="4_m6h38"]
 [ext_resource type="Texture2D" uid="uid://b6qndxf6lgcow" path="res://assets/strawberry.png" id="4_scbtm"]
 [ext_resource type="Texture2D" uid="uid://cdn508755vy0o" path="res://assets/grape.png" id="5_5awef"]
+[ext_resource type="PackedScene" uid="uid://clp3oyveevxxg" path="res://settings_menu.tscn" id="5_ryguw"]
 [ext_resource type="Texture2D" uid="uid://cxcg1wsxjlpii" path="res://assets/tangerine.png" id="6_v3kec"]
 [ext_resource type="Texture2D" uid="uid://bmjmuid0l2d07" path="res://assets/orange.png" id="7_dbxv2"]
 [ext_resource type="Texture2D" uid="uid://bcbjnfu4ocov1" path="res://assets/poof00.png" id="9_1biba"]
@@ -78,75 +79,25 @@ autostart = true
 
 [node name="PlaytimeLabel" type="Label" parent="."]
 offset_left = 2.0
-offset_top = 609.0
+offset_top = 640.0
 offset_right = 81.0
-offset_bottom = 687.0
+offset_bottom = 718.0
 text = "Playtime:
 H:MM:SS
 0:00:00"
 vertical_alignment = 2
 
-[node name="AudioLabel" type="Label" parent="."]
-offset_left = 1177.0
-offset_top = 677.0
-offset_right = 1278.0
-offset_bottom = 700.0
-text = "Audio Level:"
-horizontal_alignment = 2
-vertical_alignment = 2
-
-[node name="AudioSlider" type="HSlider" parent="."]
-offset_left = 1094.0
-offset_top = 702.0
-offset_right = 1278.0
-offset_bottom = 718.0
-min_value = -15.0
-max_value = 15.0
-scrollable = false
-
-[node name="BgOpacityLabel" type="Label" parent="."]
-offset_left = 1116.0
-offset_top = 635.0
-offset_right = 1277.0
-offset_bottom = 658.0
-text = "Background Opacity:"
-horizontal_alignment = 2
-vertical_alignment = 2
-
-[node name="BgOpacitySlider" type="HSlider" parent="."]
-offset_left = 1094.0
-offset_top = 660.0
-offset_right = 1278.0
-offset_bottom = 676.0
-max_value = 1.0
-step = 0.05
-scrollable = false
-
-[node name="CreditsButton" type="Button" parent="."]
-offset_left = 2.0
+[node name="SettingsButton" type="Button" parent="."]
+offset_left = 1162.0
 offset_top = 687.0
-offset_right = 111.0
+offset_right = 1278.0
 offset_bottom = 718.0
-text = "Show Credits"
+text = "Show Settings"
 icon_alignment = 1
 
-[node name="CreditsLabel" type="Label" parent="."]
+[node name="SettingsMenu" parent="." instance=ExtResource("5_ryguw")]
 visible = false
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 85.0
-offset_top = 470.0
-offset_right = 346.0
-offset_bottom = 597.0
-grow_vertical = 0
-text = "Credits:
-Made by: LegoZX
-Art & Music by: Rasen
-Special Thanks: 
-Pinopino, Sherry, Tsurumaki Maki"
-horizontal_alignment = 1
-vertical_alignment = 2
+z_index = 3
 
 [node name="DeathLabel" type="Label" parent="."]
 visible = false
@@ -463,9 +414,7 @@ shape = SubResource("RectangleShape2D_qlx6c")
 
 [connection signal="finished" from="BGM" to="." method="_on_bgm_finished"]
 [connection signal="timeout" from="PlaytimeTimer" to="." method="_on_playtime_timer_timeout"]
-[connection signal="value_changed" from="AudioSlider" to="." method="_on_audio_slider_value_changed"]
-[connection signal="value_changed" from="BgOpacitySlider" to="." method="_on_bg_opacity_slider_value_changed"]
-[connection signal="pressed" from="CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="RestartButton" to="." method="new_game"]
 [connection signal="animation_finished" from="Poof" to="." method="_on_poof_animation_finished"]
 [connection signal="animation_finished" from="NextPoof" to="." method="_on_next_poof_animation_finished"]
