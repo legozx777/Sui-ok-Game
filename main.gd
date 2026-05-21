@@ -109,7 +109,7 @@ func spawn_fruit(index: int, pos: Vector2, type: int, opacity = 0.5) -> void:
 	var fruit = load("res://fruit.tscn").instantiate()
 	add_child(fruit)
 	fruit.seen_signal.connect(on_seen)
-	fruit.score_signal.connect(add_score)
+	fruit.score_signal.connect(on_score)
 	fruit.spawn_new_signal.connect(spawn_fruit)
 	fruit.hit_signal.connect(on_hit)
 	fruit.sett(index, pos, type, opacity)
@@ -148,7 +148,7 @@ func on_seen(index:int) -> void:
 	if game_seen < index and index < 5:
 		game_seen = index
 
-func add_score(s:int) -> void:
+func on_score(s:int) -> void:
 	score += s
 	$ScoreLabel.text = "Score:\n" + str(score)
 	if score > high_score:
