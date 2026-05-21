@@ -296,7 +296,7 @@ func _on_credits_button_pressed():
 	$CreditsLabel.visible = not $CreditsLabel.visible
 	
 
-func _on_master_slider_value_changed(value):
+func _on_audio_slider_value_changed(value: float):
 	AudioServer.set_bus_mute(master_bus, value < $AudioSlider.min_value + $AudioSlider.step)
 	AudioServer.set_bus_volume_db(master_bus, value)
 	

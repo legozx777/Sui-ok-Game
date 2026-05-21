@@ -463,8 +463,7 @@ shape = SubResource("RectangleShape2D_qlx6c")
 
 [connection signal="finished" from="BGM" to="." method="_on_bgm_finished"]
 [connection signal="timeout" from="PlaytimeTimer" to="." method="_on_playtime_timer_timeout"]
-[connection signal="value_changed" from="AudioSlider" to="." method="_on_master_slider_value_changed"]
-[connection signal="value_changed" from="BgOpacitySlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="AudioSlider" to="." method="_on_audio_slider_value_changed"]
 [connection signal="value_changed" from="BgOpacitySlider" to="." method="_on_bg_opacity_slider_value_changed"]
 [connection signal="pressed" from="CreditsButton" to="." method="_on_credits_button_pressed"]
 [connection signal="pressed" from="RestartButton" to="." method="_on_restart_pressed"]
