@@ -36,9 +36,9 @@ var bg_opacity: float
 var bg_speed: float
 # vv  game data
 var playing: bool
-var game_seen: int # resets on game, which fruits can spawn
-var curr_fruit: int # fruit being dropped / held by player
-var next_fruit: int # fruit that is next
+var game_seen: int # which fruits can spawn
+var curr_fruit: int
+var next_fruit: int
 var score: int
 
 # vv  loaded from disk
