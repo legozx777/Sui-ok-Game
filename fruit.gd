@@ -80,3 +80,11 @@ func get_top_pos() -> float:
 	const FRUIT_SIZE = [16, 20, 24, 34, 44, 53, 61, 76, 85, 109, 128]
 	return self.position.y - FRUIT_SIZE[index]
 	
+
+func on_bg_opacity_changed(value: float):
+	self.modulate = Color(1, 1, 1, value)
+	
+
+func on_bg_speed_changed(value: float):
+	self.gravity_scale = value
+	

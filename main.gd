@@ -122,9 +122,8 @@ func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
 	fruit.score_signal.connect(on_score)
 	fruit.spawn_new_signal.connect(spawn_fruit)
 	fruit.hit_signal.connect(on_hit)
-	
-	#$SettingsMenu.bg_opacity_changed.connect(fruit.on_bg_opacity_changed)
-	#$SettingsMenu.bg_speed_changed.connect(fruit.on_bg_speed_changed)
+	$SettingsMenu.bg_opacity_changed.connect(fruit.on_bg_opacity_changed)
+	$SettingsMenu.bg_speed_changed.connect(fruit.on_bg_speed_changed)
 	fruit.sett(index, pos, type, bg_opacity, bg_speed)
 	if type == 0:
 		await get_tree().create_timer(0.5).timeout
