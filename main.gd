@@ -47,6 +47,10 @@ var high_score: int # 0-4 billion
 var playtime: int # in seconds  0-4 billion or 136 years
 """ more shit to add
 overhaul save data
+	new games
+	audio levels
+	bg settings
+
 menu screen (or not)
 add actual sound to DeathSound
 change background (photo / color) of box (draw actual background) (get sprite for player - cloud thingy)
@@ -97,33 +101,32 @@ func _ready():
 	
 
 func _process(_delta):
+	check_death()
 	if playing and not $SettingsMenu.visible:
-		var pos = Vector2(clamp(get_local_mouse_position().x, MIN_CLAMPS[curr_fruit], MAX_CLAMPS[curr_fruit]), 60)
-		$Player.position = pos
+		$Player.position.x = clamp(get_local_mouse_position().x, MIN_CLAMPS[curr_fruit], MAX_CLAMPS[curr_fruit])
 		if (
 				Input.is_action_just_pressed("drop") and $Player.visible
 				and get_local_mouse_position().distance_to($Container.position) < 600
 			):
 			$Player.visible = false
 			$DropSound.play()
-			spawn_fruit(curr_fruit, pos, 0)
+			spawn_fruit(curr_fruit, $Player.position, 0)
 			curr_fruit = next_fruit
 			set_curr()
 			next_fruit = randi() % (game_seen + 1)
-			next_fruit = 4
 		
 
 func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
 	# type 0 - player spawned, 1 - merge spawned, 2 - background
 	#await get_tree().create_timer(0.02).timeout
 	var fruit = load("res://fruit.tscn").instantiate()
-	add_child(fruit)
 	fruit.seen_signal.connect(on_seen)
 	fruit.score_signal.connect(on_score)
 	fruit.spawn_new_signal.connect(spawn_fruit)
 	fruit.hit_signal.connect(on_hit)
 	$SettingsMenu.bg_opacity_changed.connect(fruit.on_bg_opacity_changed)
 	$SettingsMenu.bg_speed_changed.connect(fruit.on_bg_speed_changed)
+	add_child(fruit)
 	fruit.sett(index, pos, type, bg_opacity, bg_speed)
 	if type == 0:
 		await get_tree().create_timer(0.5).timeout

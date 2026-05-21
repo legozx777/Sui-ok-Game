@@ -194,7 +194,7 @@ shape = SubResource("RectangleShape2D_tgug6")
 
 [node name="Player" type="Node2D" parent="."]
 z_index = 2
-position = Vector2(655, 60)
+position = Vector2(655, 45)
 metadata/_edit_group_ = true
 
 [node name="DropLine" type="Sprite2D" parent="Player"]
