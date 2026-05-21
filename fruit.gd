@@ -38,10 +38,13 @@ var type: int # 0 = player spawned, 1 = merge spawned, 2 = background
 
 func _on_body_entered(body):
 	if type != 2:
-		if not hit_local:
+		if just_player_spawned and not hit_local:
 			hit_local = true
+			just_player_spawned = false
 			hit_signal.emit()
 		if body.get_groups().find("fruit") != -1 and body.index == index:
+			if body.just_player_spawned and not body.hit_local:
+				hit_signal.emit()
 			var pos = position.lerp(body.position, 0.5)
 			body.free()
 			score_signal.emit(SCORES[index])
@@ -59,6 +62,8 @@ func sett(index: int, pos: Vector2, type: int, bg_opacity: float, bg_speed: floa
 	self.position = pos
 	self.type = type
 	$CollisionShape2D.scale = Vector2.ONE * SCALES[index]
+	if type != 0:
+		just_player_spawned = false
 	if type == 2:
 		$CollisionShape2D.scale *= 0.6
 		fruitList[index].scale *= 0.6

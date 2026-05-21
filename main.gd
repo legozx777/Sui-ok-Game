@@ -51,7 +51,6 @@ overhaul save data
 	audio levels
 	bg settings
 
-fix spam clicking causing death
 menu screen (or not)
 add actual sound to DeathSound
 change background (photo / color) of box (draw actual background) (get sprite for player - cloud thingy)
@@ -128,17 +127,12 @@ func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
 	$SettingsMenu.bg_speed_changed.connect(fruit.on_bg_speed_changed)
 	add_child(fruit)
 	fruit.sett(index, pos, type, bg_opacity, bg_speed)
-	if type == 0:
-		await get_tree().create_timer(0.5).timeout
-		if is_instance_valid(fruit):
-			fruit.just_player_spawned = false
-	elif type == 1:
+	if type == 1:
 		$Poof.position = pos
 		$Poof.scale = Vector2.ONE * POOF_SCALES[index]
 		$Poof.visible = true
 		$Poof.play()
 		$MergeSound.play()
-		fruit.just_player_spawned = false
 		
 
 func on_hit() -> void:
