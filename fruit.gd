@@ -31,19 +31,17 @@ const SCORES: Array = [
 	55,
 	66,
 ]
-var hit_local: bool = false
 var just_player_spawned: bool = true
 var index: int
 var type: int # 0 = player spawned, 1 = merge spawned, 2 = background
 
 func _on_body_entered(body):
 	if type != 2:
-		if just_player_spawned and not hit_local:
-			hit_local = true
+		if just_player_spawned:
 			just_player_spawned = false
 			hit_signal.emit()
 		if body.get_groups().find("fruit") != -1 and body.index == index:
-			if body.just_player_spawned and not body.hit_local:
+			if body.just_player_spawned:
 				hit_signal.emit()
 			var pos = position.lerp(body.position, 0.5)
 			body.free()
