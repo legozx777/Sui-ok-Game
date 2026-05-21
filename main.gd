@@ -123,10 +123,11 @@ func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
 	fruit.score_signal.connect(on_score)
 	fruit.spawn_new_signal.connect(spawn_fruit)
 	fruit.hit_signal.connect(on_hit)
-	$SettingsMenu.bg_opacity_changed.connect(fruit.on_bg_opacity_changed)
-	$SettingsMenu.bg_speed_changed.connect(fruit.on_bg_speed_changed)
-	add_child(fruit)
+	if type == 2:
+		$SettingsMenu.bg_opacity_changed.connect(fruit.on_bg_opacity_changed)
+		$SettingsMenu.bg_speed_changed.connect(fruit.on_bg_speed_changed)
 	fruit.sett(index, pos, type, bg_opacity, bg_speed)
+	add_child(fruit)
 	if type == 1:
 		$Poof.position = pos
 		$Poof.scale = Vector2.ONE * POOF_SCALES[index]
