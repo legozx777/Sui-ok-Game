@@ -46,10 +46,10 @@ var evo_seen: int # wheel of evo  0-10
 var high_score: int # 0-4 billion
 var playtime: int # in seconds  0-4 billion or 136 years
 """ more shit to add
+overhaul save data
 menu screen (or not)
 add actual sound to DeathSound
 change background (photo / color) of box (draw actual background) (get sprite for player - cloud thingy)
-add drop speed slider for the background fruits
 
 change check_death to be more efficient with a physics object at lineOfDeath
 check spawn distribution for fruits (cus rn its random maybe in game its not)
