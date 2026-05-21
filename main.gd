@@ -30,7 +30,10 @@ const POOF_SCALES:= [
 ]
 
 var master_bus:= AudioServer.get_bus_index("Master")
-var bg_opacity:= 0.5
+var music_bus:= AudioServer.get_bus_index("Music")
+var sfx_bus:= AudioServer.get_bus_index("Sfx")
+var bg_opacity: float
+var bg_speed: float
 # vv  game data
 var playing: bool
 var game_seen: int # resets on game, which fruits can spawn
@@ -75,7 +78,14 @@ func _ready():
 			high_score = FileAccess.open("user://high-score.txt", FileAccess.READ).get_32()
 			DirAccess.remove_absolute("user://high-score.txt")
 		save_data()
-	
+
+	$SettingsMenu.master_vol_changed.connect(on_master_vol_changed)
+	$SettingsMenu.music_vol_changed.connect(on_music_vol_changed)
+	$SettingsMenu.sfx_vol_changed.connect(on_sfx_vol_changed)
+	$SettingsMenu.bg_opacity_changed.connect(on_bg_opacity_changed)
+	$SettingsMenu.bg_speed_changed.connect(on_bg_speed_changed)
+	bg_opacity = $SettingsMenu.get_node("SettingsTabs/Settings/GridContainer/BgOpacitySlider").value
+	bg_speed = $SettingsMenu.get_node("SettingsTabs/Settings/GridContainer/BgSpeedSlider").value
 	$HighScoreLabel.text = "High Score:\n" + str(high_score)
 	set_playtime()
 	set_evo()
@@ -103,7 +113,7 @@ func _process(_delta):
 			next_fruit = 4
 		
 
-func spawn_fruit(index: int, pos: Vector2, type: int, opacity = 0.5) -> void:
+func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
 	# type 0 - player spawned, 1 - merge spawned, 2 - background
 	#await get_tree().create_timer(0.02).timeout
 	var fruit = load("res://fruit.tscn").instantiate()
@@ -112,7 +122,10 @@ func spawn_fruit(index: int, pos: Vector2, type: int, opacity = 0.5) -> void:
 	fruit.score_signal.connect(on_score)
 	fruit.spawn_new_signal.connect(spawn_fruit)
 	fruit.hit_signal.connect(on_hit)
-	fruit.sett(index, pos, type, opacity)
+	
+	#$SettingsMenu.bg_opacity_changed.connect(fruit.on_bg_opacity_changed)
+	#$SettingsMenu.bg_speed_changed.connect(fruit.on_bg_speed_changed)
+	fruit.sett(index, pos, type, bg_opacity, bg_speed)
 	if type == 0:
 		await get_tree().create_timer(0.5).timeout
 		# run check to see if badly timed check can cause death
@@ -195,8 +208,7 @@ func background_fruit_drop() -> void:
 	var index = randi() % (evo_seen + 1)
 	var posx = randf_range(-50, 1330)
 	var pos = Vector2(posx, -200)
-	if bg_opacity != 0:
-		spawn_fruit(index, pos, 2, bg_opacity)
+	spawn_fruit(index, pos, 2)
 	await get_tree().create_timer(0.1).timeout
 	background_fruit_drop()
 	
@@ -292,4 +304,26 @@ func _on_next_poof_animation_finished():
 
 func _on_settings_button_pressed():
 	$SettingsMenu.visible = not $SettingsMenu.visible
+	
+
+func on_master_vol_changed(value: float):
+	AudioServer.set_bus_mute(master_bus, value == $SettingsMenu.get_node("SettingsTabs/Settings/GridContainer/MasterSlider").min_value)
+	AudioServer.set_bus_volume_db(master_bus, value)
+	
+
+func on_music_vol_changed(value: float):
+	AudioServer.set_bus_mute(music_bus, value == $SettingsMenu.get_node("SettingsTabs/Settings/GridContainer/MusicSlider").min_value)
+	AudioServer.set_bus_volume_db(music_bus, value)
+	
+func on_sfx_vol_changed(value: float):
+	AudioServer.set_bus_mute(sfx_bus, value == $SettingsMenu.get_node("SettingsTabs/Settings/GridContainer/SfxSlider").min_value)
+	AudioServer.set_bus_volume_db(sfx_bus, value)
+	
+
+func on_bg_opacity_changed(value: float):
+	bg_opacity = value
+	
+
+func on_bg_speed_changed(value: float):
+	bg_speed = value
 	

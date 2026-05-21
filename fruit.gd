@@ -2,6 +2,7 @@ extends RigidBody2D
 
 signal seen_signal(index: int)
 signal score_signal(score: int)
+
 signal spawn_new_signal(index: int, pos: Vector2, poof: bool)
 signal hit_signal
 const SCALES: Array = [
@@ -51,7 +52,7 @@ func _on_body_entered(body):
 	elif body.get_groups().find("floor") != -1:
 		queue_free()
 
-func sett(index: int, pos: Vector2, type: int, opacity: float) -> void:
+func sett(index: int, pos: Vector2, type: int, bg_opacity: float, bg_speed: float) -> void:
 	var fruitList = [$Cherry, $Strawberry, $Grape, $Tangerine, $Orange, 
 		$Apple, $Melon, $Peachnya, $Pineapple, $Wintermelon, $SUIKA]
 	self.index = index
@@ -64,9 +65,9 @@ func sett(index: int, pos: Vector2, type: int, opacity: float) -> void:
 		self.z_index = -2 # -2 bc peach has z of 1, and we need -1
 		self.collision_layer = 2
 		self.collision_mask = 2
-		self.gravity_scale = 0.05
+		self.gravity_scale = bg_speed
 		self.rotation = randf() * TAU
-		self.modulate = Color(1, 1, 1, opacity)
+		self.modulate = Color(1, 1, 1, bg_opacity)
 		self.angular_velocity = randf_range(-0.2, 0.2)
 		self.remove_from_group("fruit")
 		self.add_to_group("background")
@@ -74,7 +75,8 @@ func sett(index: int, pos: Vector2, type: int, opacity: float) -> void:
 		fruitList[index-1].visible = false
 	fruitList[index].visible = true
 	
-	
+
 func get_top_pos() -> float:
 	const FRUIT_SIZE = [16, 20, 24, 34, 44, 53, 61, 76, 85, 109, 128]
 	return self.position.y - FRUIT_SIZE[index]
+	

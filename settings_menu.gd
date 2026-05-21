@@ -1,20 +1,26 @@
 extends PanelContainer
 
+signal master_vol_changed(value: float)
+signal music_vol_changed(value: float)
+signal sfx_vol_changed(value: float)
+signal bg_opacity_changed(value: float)
+signal bg_speed_changed(value: float)
+
 func _on_master_slider_value_changed(value: float) -> void:
-	pass # Replace with function body.
+	master_vol_changed.emit(value)
 
 
 func _on_music_slider_value_changed(value: float) -> void:
-	pass # Replace with function body.
+	music_vol_changed.emit(value)
 
 
 func _on_sfx_slider_value_changed(value: float) -> void:
-	pass # Replace with function body.
+	sfx_vol_changed.emit(value)
 
 
 func _on_bg_opacity_slider_value_changed(value: float) -> void:
-	pass # Replace with function body.
+	bg_opacity_changed.emit(value)
 
 
 func _on_bg_speed_slider_value_changed(value: float) -> void:
-	pass # Replace with function body.
+	bg_speed_changed.emit(value)

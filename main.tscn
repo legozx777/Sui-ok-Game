@@ -62,17 +62,21 @@ script = ExtResource("1_mm3fw")
 stream = ExtResource("2_4udxw")
 volume_db = -12.0
 autoplay = true
+bus = &"Music"
 
 [node name="MergeSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_0kymv")
 max_polyphony = 10
+bus = &"Sfx"
 
 [node name="DropSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_m6h38")
 volume_db = 3.0
 max_polyphony = 10
+bus = &"Sfx"
 
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
+bus = &"Sfx"
 
 [node name="PlaytimeTimer" type="Timer" parent="."]
 autostart = true
