@@ -51,6 +51,7 @@ overhaul save data
 	audio levels
 	bg settings
 
+fix spam clicking causing death
 menu screen (or not)
 add actual sound to DeathSound
 change background (photo / color) of box (draw actual background) (get sprite for player - cloud thingy)
@@ -101,7 +102,6 @@ func _ready():
 	
 
 func _process(_delta):
-	check_death()
 	if playing and not $SettingsMenu.visible:
 		$Player.position.x = clamp(get_local_mouse_position().x, MIN_CLAMPS[curr_fruit], MAX_CLAMPS[curr_fruit])
 		if (
@@ -130,8 +130,6 @@ func spawn_fruit(index: int, pos: Vector2, type: int) -> void:
 	fruit.sett(index, pos, type, bg_opacity, bg_speed)
 	if type == 0:
 		await get_tree().create_timer(0.5).timeout
-		# run check to see if badly timed check can cause death
-		# after moving player up so orange doesn't colide into death line
 		if is_instance_valid(fruit):
 			fruit.just_player_spawned = false
 	elif type == 1:
