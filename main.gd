@@ -101,6 +101,8 @@ func _ready():
 	
 
 func _process(_delta):
+	if Input.is_action_just_pressed("reset"):
+		new_game()
 	if playing and not $SettingsMenu.visible:
 		$Player.position.x = clamp(get_local_mouse_position().x, MIN_CLAMPS[curr_fruit], MAX_CLAMPS[curr_fruit])
 		if (
@@ -184,7 +186,7 @@ func new_game() -> void:
 	score = 0
 	set_curr()
 	set_next()
-	$ScoreLabel.text = "Score: 0"
+	$ScoreLabel.text = "Score:\n0"
 	$Player.visible = true
 	$DeathLabel.visible = false
 	$RestartButton.visible = false
