@@ -46,7 +46,7 @@ var evo_seen: int # wheel of evo  0-10
 var high_score: int # 0-4 billion
 var playtime: int # in seconds  0-4 billion or 136 years
 """ more shit to add
-overhaul save data
+overhaul save data into dict or smth
 	new games
 	audio levels
 	bg settings

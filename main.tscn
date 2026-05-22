@@ -96,6 +96,7 @@ offset_left = 1162.0
 offset_top = 687.0
 offset_right = 1278.0
 offset_bottom = 718.0
+focus_mode = 0
 text = "Show Settings"
 icon_alignment = 1
 
