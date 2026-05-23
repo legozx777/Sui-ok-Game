@@ -271,12 +271,8 @@ func set_playtime() -> void:
 	var s: int = playtime % 60
 	var m: int = (playtime / 60) % 60
 	var hours: int = playtime / 3600
-	var seconds:= str(s)
-	var minutes:= str(m)
-	if len(str(s)) == 1:
-		seconds = "0" + str(s)
-	if len(str(m)) == 1:
-		minutes = "0" + str(m)
+	var seconds:= str(s).lpad(2, "0")
+	var minutes:= str(m).lpad(2, "0")
 	$PlaytimeLabel.text = "Playtime:\nH:MM:SS\n%s:%s:%s" % [hours, minutes, seconds]
 	
 # ^^  sprite setters  ^^
