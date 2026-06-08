@@ -50,6 +50,7 @@ overhaul save data into dict or smth
 	new games
 	audio levels
 	bg settings
+	current game data (curr, next, game_seen, all fruits(set type 1 for spawning back in))
 
 menu screen (or not)
 add actual sound to DeathSound
